@@ -8,7 +8,7 @@ To add `test-pages` to a project:
 * Add `test-pages` as a git submodule. You might want to add it to the same folder for storing test specifications (see below).
 * Run `test-pages/init-pages.py` to initialize the static pages for the project. Pass in the path to the project folder you want to use for hosting the pages, for example `docs/test-pages`. The script will copy files to that folder.
 * Create another folder in your project for test specification files, with subfolders for both yml specifications and xml scripts. For example `test/specs/yml` and `test/specs/xml`.
-* Your test specification files must be "compiled" to update the web pages. To do that run the `compile_tests.py` script, passing to it the test-spec folder you created in the previous step. If you pass in specs folder, e.g. `test/specs`, the script will process all yaml files in that folder and also check for a `yml` subfolder and process yaml files there too. Note that the `compile_tests.py` script uses the external `pyyaml` library, so using a virtual python enviroment is recommended.
+* Your test specification files must be "compiled" to update the web pages. To do that run the `compile-tests.py` script, passing to it the test-spec folder you created in the previous step. If you pass in specs folder, e.g. `test/specs`, the script will process all yaml files in that folder and also check for a `yml` subfolder and process yaml files there too. Note that the `compile-tests.py` script uses the external `pyyaml` library, so using a virtual python enviroment is recommended.
 * If you are using GitHub, configure GitHub Pages in your settings to point to, e.g., `docs` folder. (For some reason, GitHub only allows you to use the root folder or `docs/`.)
 * If your `test-pages` folder is not the GitHub Pages root folder, you also need to add an `index.html` in the GitHub Pages root folder with a link to the `test-pages` folder.
 
@@ -30,5 +30,5 @@ steps:
 ```
 
 ## Generating test files
-If you have configured your project as described above, running the `compile_tests.py` script will generate the
+If you have configured your project as described above, running the `compile-tests.py` script will generate the
 json test files at `docs/test-pages/data/ ` and `docs/test-pages/test-names`.

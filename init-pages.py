@@ -8,14 +8,16 @@ if __name__ == '__main__':
     import argparse
     parser = argparse.ArgumentParser(description='Initialize folder as test-pages (static) root.')
     parser.add_argument('static_folder', help='path to new static root folder')
+    parser.add_argument('-f', '--force', action='store_true', help='OK to overwrite existing static folder')
     args = parser.parse_args()
 
     # Target folder must be empty
     if os.path.exists(args.static_folder):
-        assert os.path.isdir(args.static_folder)
-        reply = input('folder already exists; OK to blow way any existing contents? [y/N] ')
-        if reply.lower() not in ['y', 'yes']:
-            sys.exit(1)
+        if not args.force:
+            assert os.path.isdir(args.static_folder)
+            reply = input('folder already exists; OK to blow way any existing contents? [y/N] ')
+            if reply.lower() not in ['y', 'yes']:
+                sys.exit(1)
         shutil.rmtree(args.static_folder)
 
     # Copy the static content
