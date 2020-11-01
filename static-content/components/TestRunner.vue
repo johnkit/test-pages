@@ -3,29 +3,30 @@
     <div v-if="sequence">
       <h4>{{sequence.name}}</h4>
       <div v-for="(step,index) in sequence.steps" :key="index">
-        <div class="step"  :class="{minimized: index != stepNumber}">
-          <div class="step-header">{{index + 1}}. {{step.title}}</div>
-          <div class="step-content">
-            <p><strong>Action: </strong><span v-html="step.action"></span></p>
-
-            <p v-if="step.expect"><strong>Expect: </strong><span v-html="step.expect"></span></p>
-
-            <div>
-            <button :disabled="stepNumber == 0" @click="stepNumber--">Back</button>
-            <button :disabled="isNextDisabled" @click="stepNumber++">Next</button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div>
+        <test-step
+          class="step"
+          :index="index"
+          :step="step"
+          :next-disabled="isNextDisabled"
+          :class="{minimized: index != stepNumber}"
+          @back="stepNumber--"
+          @next="stepNumber++"
+          >
+        </test-step>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+// Create hash to force reload of TestStep.vue
+let hash = Math.random().toString(36).substring(2, 8);
+let qhash = `?${hash}`;
 module.exports = {
   props: ['test'],
+  components: {
+    'test-step': httpVueLoader('./TestStep.vue' + qhash),
+  },
   data: function() {
     return {
       sequence: null,
@@ -51,7 +52,7 @@ module.exports = {
       return this.stepNumber === last;
     }
   },  // computed
-  mounted() {
+  mounted: function() {
     this.startTest();
   },  // mounted()
   watch: {
