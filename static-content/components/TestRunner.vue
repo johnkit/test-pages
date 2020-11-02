@@ -10,7 +10,7 @@
           :next-disabled="isNextDisabled"
           :class="{minimized: index != stepNumber}"
           @back="stepNumber--"
-          @next="stepNumber++"
+          @next="onNextStep"
           >
         </test-step>
       </div>
@@ -34,6 +34,27 @@ module.exports = {
     }
   },  // data
   methods: {
+    onNextStep: function(action) {
+      if (action != 'play') {
+        this.stepNumber++;
+        return;
+      }
+
+      // (else) Advance to end step
+      console.log('Advancing to *end* step.');
+      // Advance to the "end" step
+      let endNumber = null;
+      for (let i = this.stepNumber; i < this.sequence.steps.length; ++i) {
+        if ('end' in this.sequence.steps[i]) {
+          endNumber = i;
+          this.stepNumber = i;
+          break;
+        }
+      }
+      if (endNumber == null) {
+        alert('Could not find matching "end" step - something is broken in the test script.');
+      }
+    },  // onNextStep()
     startTest: function() {
       // console.log(`TestRunner updating test ${this.test}`);
       let ts = Date.now();
