@@ -34,6 +34,24 @@ module.exports = {
     }
   },  // data
   methods: {
+    advance: function() {
+      // Increment step number until reaching a step with "end" key.
+      // Use delay for animation.
+      this.stepNumber++;
+      // console.log(`Set stepNumber to ${this.stepNumber}`);
+      if (this.stepNumber >= this.sequence.steps.length) {
+        alert('Could not find matching "end" step - something is broken in the test script.');
+        return;
+      }
+
+      let step = this.sequence.steps[this.stepNumber];
+      if ('end' in step) {
+        return;
+      }
+
+      // (else)
+      window.setTimeout(() => this.advance(), 200);
+    },  // advance()
     onNextStep: function(action) {
       if (action != 'play') {
         this.stepNumber++;
@@ -42,18 +60,7 @@ module.exports = {
 
       // (else) Advance to end step
       console.log('Advancing to *end* step.');
-      // Advance to the "end" step
-      let endNumber = null;
-      for (let i = this.stepNumber; i < this.sequence.steps.length; ++i) {
-        if ('end' in this.sequence.steps[i]) {
-          endNumber = i;
-          this.stepNumber = i;
-          break;
-        }
-      }
-      if (endNumber == null) {
-        alert('Could not find matching "end" step - something is broken in the test script.');
-      }
+      window.setTimeout(() => this.advance(), 200);
     },  // onNextStep()
     startTest: function() {
       // console.log(`TestRunner updating test ${this.test}`);
